@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "247108463242",
+    "project_id": "latsol-9855a",
+    "storage_bucket": "latsol-9855a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247108463242:android:1eb4cd6d4c943b4da91b73",
+        "android_client_info": {
+          "package_name": "com.sahna.latsol"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "247108463242-86ceai8htfbdh8goq1tb37cdosbbm5g5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sahna.latsol",
+            "certificate_hash": "3e50d2369d89c9eb60c272a8d381200c6a8446c9"
+          }
+        },
+        {
+          "client_id": "247108463242-c0r9s6dpqss1gjkpgc2phuaa56ucmfna.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB62aASJH-p8UoUAUlbJJULC9JAIyHCqX4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "247108463242-c0r9s6dpqss1gjkpgc2phuaa56ucmfna.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
