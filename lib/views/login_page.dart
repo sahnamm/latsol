@@ -22,6 +22,16 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   Future<UserCredential> signInWithGoogle() async {
+    //logout previous account
+
+    if (await GoogleSignIn().isSignedIn()) {
+      await GoogleSignIn().disconnect().catchError((e, stack) {
+        debugPrint("Cannot disconnect account");
+      });
+
+      await FirebaseAuth.instance.signOut();
+    }
+
     // Trigger the authentication flow
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 

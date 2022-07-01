@@ -94,62 +94,66 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: _buildUserHomeProfile(),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: _buildTopBanner(context),
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: _buildHomeListMapel(mapelList),
-            ),
-            Column(
-              children: [
-                Text(
-                  R.strings.homeBannerLatest,
-                  style: GoogleFonts.poppins().copyWith(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
+    return WillPopScope(
+      onWillPop: () async => false,
+      child: Scaffold(
+        body: SafeArea(
+          child: ListView(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: _buildUserHomeProfile(),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: _buildTopBanner(context),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: _buildHomeListMapel(mapelList),
+              ),
+              Column(
+                children: [
+                  Text(
+                    R.strings.homeBannerLatest,
+                    style: GoogleFonts.poppins().copyWith(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 170,
-                  child: bannerList == null
-                      ? const SizedBox(
-                          height: 70,
-                          width: double.infinity,
-                          child: Center(child: CircularProgressIndicator()),
-                        )
-                      : ListView.builder(
-                          itemCount: bannerList!.data!.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            final currentBanner = bannerList!.data![index];
-                            return Padding(
-                              padding: index != 4
-                                  ? const EdgeInsets.only(left: 20.0)
-                                  : const EdgeInsets.symmetric(
-                                      horizontal: 20.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(10),
-                                child: Image.network(currentBanner.eventImage!),
-                              ),
-                            );
-                          },
-                        ),
-                ),
-                const SizedBox(height: 35),
-              ],
-            ),
-          ],
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 170,
+                    child: bannerList == null
+                        ? const SizedBox(
+                            height: 70,
+                            width: double.infinity,
+                            child: Center(child: CircularProgressIndicator()),
+                          )
+                        : ListView.builder(
+                            itemCount: bannerList!.data!.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              final currentBanner = bannerList!.data![index];
+                              return Padding(
+                                padding: index != 4
+                                    ? const EdgeInsets.only(left: 20.0)
+                                    : const EdgeInsets.symmetric(
+                                        horizontal: 20.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(10),
+                                  child:
+                                      Image.network(currentBanner.eventImage!),
+                                ),
+                              );
+                            },
+                          ),
+                  ),
+                  const SizedBox(height: 35),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
