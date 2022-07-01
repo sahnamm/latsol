@@ -3,21 +3,38 @@ import 'package:latsol/constants/r.dart';
 import 'package:latsol/models/paket_soal_list.dart';
 import 'package:latsol/views/main/latihan_soal/kerjakan_latihan_soal_page.dart';
 
-class PaketSoalWidget extends StatelessWidget {
+class PaketSoalWidget extends StatefulWidget {
   const PaketSoalWidget({
     Key? key,
     required this.data,
   }) : super(key: key);
   final PaketSoalData data;
+
+  @override
+  State<PaketSoalWidget> createState() => _PaketSoalWidgetState();
+}
+
+class _PaketSoalWidgetState extends State<PaketSoalWidget> {
+  int? jumlahDone;
+  @override
+  void initState() {
+    super.initState();
+    jumlahDone = widget.data.jumlahDone;
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.of(context).push(
+      onTap: () async {
+        await Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (context) => KerjakanLatihanSoalPage(id: data.exerciseId!),
+            builder: (context) =>
+                KerjakanLatihanSoalPage(id: widget.data.exerciseId!),
           ),
         );
+        //hardcode bcs jumlahDone only updated in server when finish all questions.
+        jumlahDone = 10;
+        setState(() {});
       },
       child: Container(
         decoration: BoxDecoration(
@@ -41,13 +58,13 @@ class PaketSoalWidget extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              data.exerciseTitle!,
+              widget.data.exerciseTitle!,
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
               ),
             ),
             Text(
-              "${data.jumlahDone}/${data.jumlahSoal} Paket Soal",
+              "$jumlahDone/${widget.data.jumlahSoal} Paket Soal",
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 9,

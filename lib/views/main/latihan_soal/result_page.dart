@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:latsol/constants/enums.dart';
 import 'package:latsol/constants/r.dart';
-import 'package:latsol/models/network_response.dart';
 import 'package:latsol/models/result_response.dart';
 import 'package:latsol/respository/latihan_soal_api.dart';
 
@@ -23,7 +23,6 @@ class _ResultPageState extends State<ResultPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     getResult();
   }
@@ -36,21 +35,22 @@ class _ResultPageState extends State<ResultPage> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: resultData == null
-              ? Center(child: CircularProgressIndicator())
+              ? const Center(child: CircularProgressIndicator())
               : Column(
                   children: [
                     Row(
                       children: [
                         IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                            },
-                            icon: Icon(
-                              Icons.close,
-                              color: Colors.white,
-                            )),
-                        Text(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(
+                            Icons.close,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const Text(
                           "Tutup",
                           style: TextStyle(
                             color: Colors.white,
@@ -58,28 +58,24 @@ class _ResultPageState extends State<ResultPage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 50),
-                    Text(
+                    const SizedBox(height: 50),
+                    const Text(
                       "Selamat",
                       style: TextStyle(color: Colors.white, fontSize: 24),
                     ),
-                    Text(
+                    const Text(
                       "Kamu telah menyelesaikan Kuiz ini",
                       style: TextStyle(
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(
-                      height: 34,
-                    ),
+                    const SizedBox(height: 34),
                     Image.asset(
                       R.assets.imgResult,
                       width: MediaQuery.of(context).size.width * 0.5,
                     ),
-                    SizedBox(
-                      height: 35,
-                    ),
-                    Text(
+                    const SizedBox(height: 35),
+                    const Text(
                       "Nilai kamu:",
                       style: TextStyle(
                         color: Colors.white,
@@ -87,7 +83,7 @@ class _ResultPageState extends State<ResultPage> {
                     ),
                     Text(
                       resultData!.data!.result!.jumlahScore!,
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 96,
                       ),

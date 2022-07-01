@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:latsol/constants/r.dart';
+import 'package:latsol/constants/enums.dart';
 import 'package:latsol/constants/route_name.dart';
-import 'package:latsol/models/network_response.dart';
 import 'package:latsol/models/paket_soal_list.dart';
 import 'package:latsol/respository/latihan_soal_api.dart';
 import 'package:latsol/widgets/paket_soal.dart';

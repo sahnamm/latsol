@@ -43,8 +43,6 @@ class _ProfilePageState extends State<ProfilePage> {
                   return const EditProfilePage();
                 }),
               );
-              print("result");
-              print(result);
               if (result == true) {
                 getUserData();
               }
@@ -213,6 +211,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   onTap: () async {
                     await GoogleSignIn().signOut();
                     await FirebaseAuth.instance.signOut();
+                    if (!mounted) return;
                     Navigator.of(context).pushNamedAndRemoveUntil(
                       LoginPage.route,
                       (route) => false,

@@ -28,7 +28,9 @@ class _MainPageState extends State<MainPage> {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => const ChatPage(),
+              builder: (context) => const ChatPage(
+                id: "All Chat",
+              ),
             ),
           );
         },
@@ -131,11 +133,13 @@ class _MainPageState extends State<MainPage> {
                       },
                       child: Column(
                         children: [
-                          Image.asset(
-                            R.assets.icProfile,
-                            height: 20,
-                            color: index == 1 ? null : Colors.grey,
-                          ),
+                          index == 1
+                              ? Image.asset(
+                                  R.assets.icProfile,
+                                  height: 20,
+                                  // color: index == 1 ? null : Colors.grey,
+                                )
+                              : const Icon(Icons.person, size: 20),
                           const Text("Profile"),
                         ],
                       ),

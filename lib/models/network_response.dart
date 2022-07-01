@@ -1,4 +1,4 @@
-enum Status { success, loading, error, timeout, internetError }
+import 'package:latsol/constants/enums.dart';
 
 class NetworkResponse {
   final Status status;

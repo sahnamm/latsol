@@ -3,10 +3,9 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:latsol/constants/enums.dart';
 import 'package:latsol/constants/r.dart';
 import 'package:latsol/constants/route_name.dart';
-import 'package:latsol/helpers/user_email.dart';
-import 'package:latsol/models/network_response.dart';
 import 'package:latsol/models/user_by_email.dart';
 import 'package:latsol/respository/auth_api.dart';
 import 'package:latsol/views/login_page.dart';
@@ -25,17 +24,19 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () async {
-      final user = UserEmail.getUserEmail();
-
+      // final user = UserEmail.getUserEmail();
+      final user = FirebaseAuth.instance.currentUser;
       if (user != null) {
         final dataUser = await AuthApi().getUserByEmail();
         if (dataUser.status == Status.success) {
           final data = UserByEmail.fromJson(dataUser.data!);
           if (data.status == 1) {
+            if (!mounted) return;
             Navigator.of(context).pushReplacementNamed(MainPage.route);
           } else {
             await GoogleSignIn().signOut();
             await FirebaseAuth.instance.signOut();
+            if (!mounted) return;
             Navigator.of(context).pushReplacementNamed(LoginPage.route);
           }
         }

@@ -1,12 +1,11 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:latsol/constants/enums.dart';
 import 'package:latsol/constants/r.dart';
-import 'package:latsol/constants/route_name.dart';
 import 'package:latsol/helpers/preference_helper.dart';
 import 'package:latsol/models/banner_list.dart';
 import 'package:latsol/models/mapel_list.dart';
-import 'package:latsol/models/network_response.dart';
 import 'package:latsol/models/user_by_email.dart';
 import 'package:latsol/respository/latihan_soal_api.dart';
 import 'package:latsol/views/main/latihan_soal/mapel_page.dart';
@@ -43,9 +42,7 @@ class _HomePageState extends State<HomePage> {
 // Get any messages which caused the application to open from
     // a terminated state.
     final tokenFcm = await FirebaseMessaging.instance.getToken();
-    print("tokenfcm: $tokenFcm");
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
+    debugPrint("tokenfcm: $tokenFcm");
 
     // If the message also contains a data property with a "type" of "chat",
     // navigate to a chat screen
@@ -65,16 +62,17 @@ class _HomePageState extends State<HomePage> {
       sound: true,
     );
 
-    print('User granted permission: ${settings.authorizationStatus}');
+    debugPrint('User granted permission: ${settings.authorizationStatus}');
     // Also handle any interaction when the app is in the background via a
     // Stream listener
     FirebaseMessaging.onMessageOpenedApp.listen((event) {});
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('Got a message whilst in the foreground!');
-      print('Message data: ${message.data}');
+      debugPrint('Got a message whilst in the foreground!');
+      debugPrint('Message data: ${message.data}');
 
       if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
+        debugPrint(
+            'Message also contained a notification: ${message.notification}');
       }
     });
   }
@@ -124,19 +122,29 @@ class _HomePageState extends State<HomePage> {
                 const SizedBox(height: 10),
                 SizedBox(
                   height: 170,
-                  child: ListView.builder(
-                    itemCount: 5,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.only(
-                          left: 20.0,
-                          // right: index == 4 ? 20.0 : 2.0,
+                  child: bannerList == null
+                      ? const SizedBox(
+                          height: 70,
+                          width: double.infinity,
+                          child: Center(child: CircularProgressIndicator()),
+                        )
+                      : ListView.builder(
+                          itemCount: bannerList!.data!.length,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            final currentBanner = bannerList!.data![index];
+                            return Padding(
+                              padding: index != 4
+                                  ? const EdgeInsets.only(left: 20.0)
+                                  : const EdgeInsets.symmetric(
+                                      horizontal: 20.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(currentBanner.eventImage!),
+                              ),
+                            );
+                          },
                         ),
-                        child: Image.asset(R.assets.bannerHome),
-                      );
-                    },
-                  ),
                 ),
                 const SizedBox(height: 35),
               ],

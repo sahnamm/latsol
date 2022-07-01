@@ -85,7 +85,7 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['exercise_id_fk'] = exerciseIdFk;
     data['bank_question_id'] = bankQuestionId;
     data['question_title'] = questionTitle;

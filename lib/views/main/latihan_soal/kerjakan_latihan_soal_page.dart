@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:latsol/constants/enums.dart';
 import 'package:latsol/constants/r.dart';
 import 'package:latsol/helpers/user_email.dart';
 import 'package:latsol/models/kerjakan_soal_list.dart';
-import 'package:latsol/models/network_response.dart';
 import 'package:latsol/respository/latihan_soal_api.dart';
 import 'package:latsol/views/main/latihan_soal/result_page.dart';
 
@@ -43,7 +43,7 @@ class _KerjakanLatihanSoalPageState extends State<KerjakanLatihanSoalPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Latihan Soal")),
+      appBar: AppBar(title: const Text("Latihan Soal")),
       // tombol selanjutnya atau submit
       bottomNavigationBar: _controller == null
           ? const SizedBox(height: 0)
@@ -68,18 +68,16 @@ class _KerjakanLatihanSoalPageState extends State<KerjakanLatihanSoalPage>
                             isScrollControlled: true,
                             backgroundColor: Colors.transparent,
                             builder: (context) {
-                              return BottomsheetConfirmation();
+                              return const BottomsheetConfirmation();
                             });
-                        print(result);
                         if (result == true) {
-                          print("kirim ke backend");
                           List<String> answer = [];
                           List<String> questionId = [];
 
-                          soalList!.data!.forEach((element) {
+                          for (var element in soalList!.data!) {
                             questionId.add(element.bankQuestionId!);
                             answer.add(element.studentAnswer!);
-                          });
+                          }
 
                           final payload = {
                             "user_email": UserEmail.getUserEmail(),
@@ -87,11 +85,12 @@ class _KerjakanLatihanSoalPageState extends State<KerjakanLatihanSoalPage>
                             "bank_question_id": questionId,
                             "student_answer": answer,
                           };
-                          print(payload);
+                          // print(payload);
 
                           final result =
                               await LatihanSoalApi().postStudentAnswer(payload);
                           if (result.status == Status.success) {
+                            if (!mounted) return;
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (BuildContext context) {
                               return ResultPage(
@@ -99,9 +98,12 @@ class _KerjakanLatihanSoalPageState extends State<KerjakanLatihanSoalPage>
                               );
                             }));
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content:
-                                    Text("Submit gagal. silahkan ulangi")));
+                            if (!mounted) return;
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Submit gagal. silahkan ulangi"),
+                              ),
+                            );
                           }
                         }
                       } else {
@@ -298,48 +300,50 @@ class _BottomsheetConfirmationState extends State<BottomsheetConfirmation> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Container(
-        padding: EdgeInsets.all(20),
-        decoration: new BoxDecoration(
-          color: Colors.white,
-          borderRadius: new BorderRadius.only(
-            topLeft: const Radius.circular(25.0),
-            topRight: const Radius.circular(25.0),
+      padding: const EdgeInsets.all(20),
+      decoration: const BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(25.0),
+          topRight: Radius.circular(25.0),
+        ),
+      ),
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Container(
+          width: 100,
+          height: 5,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: R.colors.greySubtitle,
           ),
         ),
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          Container(
-            width: 100,
-            height: 5,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: R.colors.greySubtitle,
+        const SizedBox(height: 15),
+        Image.asset(R.assets.icConfirmatio),
+        const SizedBox(height: 15),
+        const Text("Kumpulkan latihan soal sekarang?"),
+        const Text("Boleh langsung kumpulin dong"),
+        Row(
+          children: [
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(false);
+                },
+                child: const Text("Nanti Dulu"),
+              ),
             ),
-          ),
-          SizedBox(height: 15),
-          Image.asset(R.assets.icConfirmatio),
-          SizedBox(height: 15),
-          Text("Kumpulkan latihan soal sekarang?"),
-          Text("Boleh langsung kumpulin dong"),
-          Row(
-            children: [
-              Expanded(
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(false);
-                      },
-                      child: Text("Nanti Dulu"))),
-              SizedBox(width: 15),
-              Expanded(
-                  child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).pop(true);
-                      },
-                      child: Text("Ya"))),
-            ],
-          )
-        ]),
-      ),
+            const SizedBox(width: 15),
+            Expanded(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop(true);
+                },
+                child: const Text("Ya"),
+              ),
+            ),
+          ],
+        )
+      ]),
     );
   }
 }

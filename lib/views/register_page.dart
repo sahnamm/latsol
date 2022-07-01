@@ -4,7 +4,6 @@ import 'package:latsol/constants/r.dart';
 import 'package:latsol/constants/route_name.dart';
 import 'package:latsol/helpers/preference_helper.dart';
 import 'package:latsol/helpers/user_email.dart';
-import 'package:latsol/models/network_response.dart';
 import 'package:latsol/models/user_by_email.dart';
 import 'package:latsol/respository/auth_api.dart';
 import 'package:latsol/views/main_page.dart';
@@ -226,11 +225,13 @@ class _RegisterPageState extends State<RegisterPage> {
                 final registerResult = UserByEmail.fromJson(result.data!);
                 if (registerResult.status == 1) {
                   await PreferenceHelper().setUserData(registerResult.data!);
+                  if (!mounted) return;
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     MainPage.route,
                     (context) => false,
                   );
                 } else {
+                  if (!mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: Text(registerResult.message!),
@@ -238,8 +239,9 @@ class _RegisterPageState extends State<RegisterPage> {
                   );
                 }
               } else {
+                if (!mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text("Terjadi kesalahan, silahkan ulangi kembali"),
                   ),
                 );

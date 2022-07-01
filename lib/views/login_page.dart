@@ -2,10 +2,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:latsol/constants/enums.dart';
 import 'package:latsol/constants/r.dart';
 import 'package:latsol/constants/route_name.dart';
 import 'package:latsol/helpers/preference_helper.dart';
-import 'package:latsol/models/network_response.dart';
 import 'package:latsol/models/user_by_email.dart';
 import 'package:latsol/respository/auth_api.dart';
 import 'package:latsol/views/main_page.dart';
@@ -105,14 +105,17 @@ class _LoginPageState extends State<LoginPage> {
                     final data = UserByEmail.fromJson(dataUser.data!);
                     if (data.status == 1) {
                       await PreferenceHelper().setUserData(data.data!);
+                      if (!mounted) return;
                       Navigator.of(context).pushNamed(MainPage.route);
                     } else {
+                      if (!mounted) return;
                       Navigator.of(context).pushNamed(RegisterPage.route);
                     }
                   }
                 } else {
+                  if (!mounted) return;
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text("Gagal Masuk"),
                       duration: Duration(seconds: 2),
                     ),
@@ -120,26 +123,26 @@ class _LoginPageState extends State<LoginPage> {
                 }
               },
             ),
-            ButtonLogin(
-              backgroundColor: Colors.black,
-              borderColor: R.colors.primary,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(R.assets.icAple),
-                  const SizedBox(width: 15),
-                  Text(
-                    R.strings.loginWithApple,
-                    style: const TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
-              ),
-              onTap: () {},
-            ),
+            // ButtonLogin(
+            //   backgroundColor: Colors.black,
+            //   borderColor: R.colors.primary,
+            //   child: Row(
+            //     mainAxisAlignment: MainAxisAlignment.center,
+            //     children: [
+            //       Image.asset(R.assets.icAple),
+            //       const SizedBox(width: 15),
+            //       Text(
+            //         R.strings.loginWithApple,
+            //         style: const TextStyle(
+            //           fontSize: 17,
+            //           fontWeight: FontWeight.w500,
+            //           color: Colors.white,
+            //         ),
+            //       ),
+            //     ],
+            //   ),
+            //   onTap: () {},
+            // ),
           ],
         ),
       ),
